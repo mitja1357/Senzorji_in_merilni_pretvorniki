@@ -1,0 +1,1 @@
+# Senzorji_in_merilni_pretvorniki
