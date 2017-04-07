@@ -1,0 +1,171 @@
+\documentclass[10pt,a4paper]{article}
+%\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[slovene]{babel}
+\usepackage{pgfplots}
+\author{Mitja Alic}
+\title{Poro"cila vaj Senzorji in merilni pretvorniki}
+\begin{document}
+	\section{Vaja:Merjenje toka s Hallovo sondo in AMR senzorjem}
+	
+	Dne 4. novembra 2016 smo imeli prvo vajo pri predmetu Senzorji in merilni pretvorniki, ki se izvaja v 5 letniku. Vaje smo opravljali pod ostrim nadzorom asistenta Andr"za Riharja. Ogledali in pomerili smo vezji za merjenje toka CMS 2015 (\href{http://sensitec.com/upload/SENSITEC/PDF_Downloads/Datenblatt/SENSITEC_CMS2015_DSE_04.pdf}{DataSheet}) in LA55-P (\href{http://www.farnell.com/datasheets/1639877.pdf}{DataSheet}). Pomerili smo karakteristiki merilniko izhodna napetost v odvistnosti od toka in frekven"cno karakteristiko.
+	\subsection{Merilnik toka s AMR senzorjem}
+	
+	Merilnik toka CMS 2015 smo priklopili na napajanje in pomerili napetost na izhodnih sponkah. Merilne sponke za tok so bile "se izklju"cene. V tokovni tokokrog smo vklju"cili ampermeter, s katerim smo to"cneje pomerili tok s tokovnega generatorja. V tabeli \ref{Tabela UI amr} imamo podano odvisnost izhodne napetosti $U_m$ od vsiljenega toka $I_p$.
+
+	\begin{table}[h!]
+	\centering
+	
+	
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{$I_p$}/A&\textbf{$U_m$}/mV
+		\\\hline
+-4.00&-663\\\hline
+-3.50&-582\\\hline
+-3.00&-498\\\hline
+-2.50&-416\\\hline
+-2.00&-333\\\hline
+-1.50&-250\\\hline
+-1.00&-168\\\hline
+-0.50&-86\\\hline
+0.00&-2\\\hline
+0.25&41\\\hline
+0.50&83\\\hline
+0.75&125\\\hline
+1.00&166\\\hline
+1.25&207\\\hline
+1.50&248\\\hline
+1.75&289\\\hline
+2.00&330\\\hline
+2.25&373\\\hline
+2.50&416\\\hline
+2.75&455\\\hline
+3.00&495\\\hline
+3.25&537\\\hline
+3.50&580\\\hline
+3.75&619\\\hline
+4.00&660\\\hline
+4.25&701\\\hline
+	\end{tabular}
+	
+	
+	
+	\caption{Meritve stati"cne karakteristike merilnika toka CMS 2015}
+	
+	
+	\label{Tabela UI amr}
+	\end{table}
+
+\begin{figure}[h!]
+	
+
+\begin{tikzpicture}[scale=1.1]% table
+\begin{axis}[	width=9.6cm, height=8cm,
+xlabel=$I_p/\mathrm{A}$,ylabel=$U/m/ \mathrm{mV}$,
+xmin=-4, xmax=5,
+ymin=-800, ymax=800,
+xtick={-4,-3,...,5},
+ytick={-800,-600,...,800},
+xticklabel style={/pgf/number format/fixed}, % brez eksponentnega zapisa na x-osi.
+grid=both,
+legend pos=south east]
+\addplot[red,thick] table[x index = {0},y index = {1}] {vaja1.txt};
+\addlegendentry{meritve}
+\addplot[blue, domain=-4 :4.25, samples=5]{165.56*x+0.1246};
+\addlegendentry{linearizacija meritev}
+\end{axis}
+
+\end{tikzpicture}
+\centering
+\caption{Graf meritev stati"cne karakteristike merilnika CMS 2015 in premica, ki se najbloje prilega meritvam}
+\label{UI_amr}
+\end{figure}
+
+	
+	S slike \ref{UI_amr} vidimo, da se meritve zelo dobro prilagajajo premici. Najve"cji odklon od premice je 3,3 mV in povpre"cni 1,4 mV. Merilnik smo uporabili v odprtozan"cnem na"cinu. Za zaprtozan"cnega bi potrebovali dodatno vezje (generator pulzov) in ra"cunalnik ki bi re"seval sistem dveh ena"cb in tako izra"cunal merjeni tok.
+	
+	Nato smo pomerili frekven"cno karakteristiko. V datasheet-u je podana frekven"cna meja 100 kHz. To pomeni da pri konstantni amplitudi toka pri frekvenci 100 kHz dobimo izhodno napetost za 3 dB ( $1/\sqrt{2}$) ni"zjo, kot bi jo dobili pri ni"zji frekvenci (npr. 100 Hz). To smo "zeleli pomeriti vendar je imel merilni instrumetarij ni"zjo mejno frekvenco (10 kHz). Tako je bila odvistnost napetosti na izhodu merilnika odvisna od generatorja toka, saj je imel "ze generator na izhodu oslabljen izhod.
+	
+	
+	\subsection{Hallova sonda}
+	
+	
+	LA55-P slu"zi kot detekcijski element za merjenje toka. Uporabnik si sam dolo"ci "stevilo ovojev skozi merilnik glede na to kak"sne tokove pri"cakuje. Senzor je dimenziran za nazivni tok  50 $\mathrm{A_{rms}}$. Iz navodil za laboratorijsko vajo, da merjeni tok nebo presegal 10 $\mathrm{A_{pp}}$, kar je 3,54 $\mathrm{A_{rms}}$, lahko naredimo 14 ovojev. Dolo"citi moramo "Se vrednost upora, ki ga ve"zemo serijsko kompenzacijskemu navitju, na katerem merimo napetost ki je premosorazmerna toku kompenzacijskega navitja. Kompenzacijsko navitje ima 1000 ovojev in nazivni tok skozi navitje je 50 mA. Priporo"cljiv je upor med 10 in 100 $\mathrm{\Omega}$. Premajhen upor lahko povzro"ci nastabilen sistem, upor pa tudi vpliva na "casovno konstanto $\tau=L/R$. Uporabimo 100 $\mathrm{\Omega}$ upor. Kot pri senzorju CMS 2015 pomerimo stati"cno karakteristiko. Rezultati meritev so v tabeli \ref{Tabela UI hall}.
+	
+	\begin{table}[h!]
+		\caption{Meritve stati"cne karakteristike merilnika toka LA55-P}
+		\label{Tabela UI hall}
+		\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{$I_p$/A}&\textbf{$U_m$/mV}\\\hline
+		-4.00&-3880\\\hline
+		-3.50&-3400\\\hline
+		-3.00&-2920\\\hline
+		-2.50&-2440\\\hline
+		-2.00&-1950\\\hline
+		-1.50&-1467\\\hline
+		-1.00&-982\\\hline
+		-0.50&-497\\\hline
+		0.00&-13\\\hline
+		0.25&226\\\hline
+		0.50&473\\\hline
+		0.75&722\\\hline
+		1.00&963\\\hline
+		1.25&1204\\\hline
+		1.50&1445\\\hline
+		1.75&1690\\\hline
+		2.00&1933\\\hline
+		2.25&2170\\\hline
+		2.50&2420\\\hline
+		2.75&2660\\\hline
+		3.00&2900\\\hline
+		3.25&3150\\\hline
+		3.50&3370\\\hline
+		3.75&3610\\\hline
+		4.00&3860\\\hline
+		4.25&4080\\\hline
+	\end{tabular}
+	\end{table}
+	
+	\begin{figure}[h!]
+		
+		
+		\begin{tikzpicture}[scale=1.1]% table
+		\begin{axis}[	width=9.6cm, height=8cm,
+		xlabel=$I_p/\mathrm{A}$,ylabel=$U/m/ \mathrm{mV}$,
+		xmin=-4, xmax=5,
+		ymin=-4000, ymax=5000,
+		xtick={-4,-3,...,5},
+		ytick={-4000,-3000,...,5000},
+		xticklabel style={/pgf/number format/fixed}, % brez eksponentnega zapisa na x-osi.
+		grid=both,
+		legend pos=south east]
+		\addplot[red,thick] table[x index = {0},y index = {2}] {vaja1.txt};
+		\addlegendentry{meritve}
+		\addplot[blue, domain=-4 :4.25, samples=5]{967.025*x+0.1246};
+		\addlegendentry{linearizacija meritev}
+		\end{axis}
+		
+		\end{tikzpicture}
+		\centering
+
+			\label{UI_hall}
+		\caption{Graf meritev stati"cne karakteristike merilnika LA55-P in premica, ki se najbloje prilega meritvam}
+	\end{figure}
+	
+	
+	Iz slike \ref{UI_hall} vidimo, da je strmina premice pribli"zno ena (1 V/A, na sliki je napetost v mV). Odklon od linearizirane premice je v povpre"cju 10,7 mV najve"cji odklon pa 30,0 mV.
+	
+	Meritve frekven"cne karakteristike prav tako nismo opravili. Vzrok v in"strumentariju. Zanimivost pa je da je v datasheet-u podana mejna frekvenca za -1 dB. Pri konstantnem toku pri frekvenci 200 kHz je izhodna napetost po amplitudi za 1 dB ni"zja, kot pri ni"zjih frekvencah.
+	
+	
+	\subsection{Zaklju"cek}
+	 Obmo"cje izhodne napetosti merilnika s Hallovo sondo je skoraj "setkrat ve"cje, medtem ko pogre"sek od linearne premice je skoraj osemkrat ve"cji.
+\end{document}
